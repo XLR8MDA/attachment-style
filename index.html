@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rooted — Discover Your Attachment Style</title>
+  <meta name="description" content="A free, science-based quiz to discover your attachment style and find resources to grow toward secure relationships.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <button class="lang-btn" onclick="toggleLang()">🌐 <span id="langLabel">EN</span> ▾</button>
+    <div class="lang-dropdown" id="langMenu"></div>
+  </div>
+
+  <!-- ══════════ HERO ══════════ -->
+  <section id="hero">
+    <div class="site-logo">Rooted <span class="logo-dot"></span></div>
+
+    <div class="hero-sub" data-i18n="heroSub">Free · Science-Based · 2 Minutes</div>
+
+    <h1 class="hero-title" data-i18n="heroTitle">
+      Understand <em>how you love.</em><br>Grow toward security.
+    </h1>
+
+    <p class="hero-desc" data-i18n="heroDesc">
+      Answer 10 questions to discover your attachment style — the pattern behind how you connect, communicate, and handle closeness in relationships.
+    </p>
+
+    <div class="disclaimer">
+      <p>
+        <strong data-i18n="discTitle">🌱 A note before you begin</strong>
+        <span data-i18n="discText">Your attachment style is <strong>not</strong> a diagnosis, a disorder, or a permanent label. It is a pattern your nervous system learned to keep you safe — often in childhood. With awareness and intentional practice, it can absolutely change. This quiz is only here to help you understand yourself better.</span>
+      </p>
+    </div>
+
+    <button class="btn-primary" type="button" onclick="startQuiz()" data-i18n="startBtn">
+      Take the Free Quiz →
+    </button>
+
+    <div class="hero-meta">
+      <span>🔒 <span data-i18n="noData">No data collected</span></span>
+      <span>⏱ <span data-i18n="twoMin">~2 minutes</span></span>
+      <span>🎁 <span data-i18n="freeRes">Free resources included</span></span>
+    </div>
+  </section>
+
+  <!-- ══════════ QUIZ ══════════ -->
+  <section id="quiz">
+    <div class="quiz-top">
+      <div class="quiz-logo">Rooted</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progFill" style="width:10%"></div>
+      </div>
+      <div class="progress-meta">
+        <span id="progLabel">Question 1 of 10</span>
+        <span id="progPct">10%</span>
+      </div>
+    </div>
+
+    <div class="inline-warn" id="inlineWarn" data-i18n="selectWarn">
+      Please select an answer to continue.
+    </div>
+
+    <div class="question-card" id="qCard">
+      <div class="q-number" id="qNum">Question 1</div>
+      <h2 class="q-text" id="qText"></h2>
+      <div class="answer-group" id="answerGroup"></div>
+      <div class="quiz-nav">
+        <button class="btn-secondary" type="button" id="backBtn" onclick="prevQ()" style="visibility:hidden" data-i18n="back">← Back</button>
+        <span style="font-size:13px;color:var(--text-muted)" data-i18n="tapHint">Tap an answer to continue</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ RESULTS ══════════ -->
+  <section id="results">
+    <div class="results-top">
+      <div class="results-logo">Rooted</div>
+      <div class="style-badge" id="styleBadge"></div>
+      <h1 class="style-title" id="styleTitle"></h1>
+      <p class="style-tagline" id="styleTagline"></p>
+      <div class="results-note" data-i18n="resultsNote">
+        ✨ This reflects a pattern, not a permanent truth. Attachment styles can and do change with intentional work.
+      </div>
+
+      <a class="btn-download" href="assessment.pdf" download="Attachment-Styles-Assessment.pdf">
+        <span class="btn-download-icon">⬇</span>
+        <span>
+          <span class="btn-download-title" data-i18n="dlTitle">Download Full Assessment</span>
+          <span class="btn-download-sub" data-i18n="dlSub">Clinical guide · PDF · Free</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- 2D Attachment Map -->
+    <div class="plot-card">
+      <div class="plot-card-title" data-i18n="mapTitle">Your Position on the Attachment Map</div>
+      <div class="plot-wrap">
+        <svg id="attachMap" width="300" height="300" viewBox="0 0 300 300"></svg>
+      </div>
+      <div class="plot-note" data-i18n="mapNote">
+        X = Avoidance (discomfort with closeness) · Y = Anxiety (fear of abandonment)
+      </div>
+    </div>
+
+    <!-- Score cards -->
+    <div class="scores-row">
+      <div class="score-card">
+        <div class="score-lbl" data-i18n="anxLbl">Anxiety Score</div>
+        <div class="score-val" id="anxScore">—<span class="score-max">/20</span></div>
+      </div>
+      <div class="score-card">
+        <div class="score-lbl" data-i18n="avoLbl">Avoidance Score</div>
+        <div class="score-val" id="avoScore">—<span class="score-max">/20</span></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-wrap">
+      <div class="tab-btns">
+        <button class="tab-btn active" type="button" onclick="setTab('about')"     data-i18n="tabAbout">About You</button>
+        <button class="tab-btn"        type="button" onclick="setTab('exercises')" data-i18n="tabEx">Exercises</button>
+        <button class="tab-btn"        type="button" onclick="setTab('path')"      data-i18n="tabPath">Your Path</button>
+        <button class="tab-btn"        type="button" onclick="setTab('resources')" data-i18n="tabRes">Resources</button>
+      </div>
+      <div class="tab-pane active" id="tab-about"></div>
+      <div class="tab-pane"        id="tab-exercises"></div>
+      <div class="tab-pane"        id="tab-path"></div>
+      <div class="tab-pane"        id="tab-resources"></div>
+    </div>
+
+    <!-- All 4 styles overview -->
+    <div class="all-styles">
+      <h2 class="all-styles-h" data-i18n="allStylesH">The Four Attachment Styles</h2>
+      <div class="styles-grid" id="stylesGrid"></div>
+    </div>
+
+    <!-- Retake -->
+    <div class="retake-section">
+      <p class="retake-text" data-i18n="retakeText">
+        Attachment patterns can shift over time. Retake this whenever you want a fresh check-in.
+      </p>
+      <button class="btn-secondary" type="button" onclick="resetQuiz()" data-i18n="retakeBtn">
+        Retake the Quiz
+      </button>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
