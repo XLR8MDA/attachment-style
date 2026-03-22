@@ -7,8 +7,5 @@
     "dev": "npx serve .",
     "build": "echo 'Static site, no build required'",
     "test": "echo 'No tests configured yet'"
-  },
-  "dependencies": {
-    "@vercel/analytics": "^1.3.1"
   }
 }

@@ -5,10 +5,7 @@
 const LANGS = [
   { code: 'en', label: 'English',  flag: '🇬🇧', rtl: false },
   { code: 'hi', label: 'हिंदी',    flag: '🇮🇳', rtl: false },
-  { code: 'bn', label: 'বাংলা',    flag: '🇮🇳', rtl: false },
-  { code: 'ta', label: 'தமிழ்',   flag: '🇮🇳', rtl: false },
-  { code: 'te', label: 'తెలుగు',  flag: '🇮🇳', rtl: false },
-  { code: 'mr', label: 'मराठी',   flag: '🇮🇳', rtl: false },
+  // bn, ta, te, mr removed until translations are available
   { code: 'ur', label: 'اردو',     flag: '🇵🇰', rtl: true  },
   { code: 'ar', label: 'العربية',  flag: '🇸🇦', rtl: true  },
   { code: 'ru', label: 'Русский',  flag: '🇷🇺', rtl: false },
@@ -218,8 +215,6 @@ const TR = {
   },
 };
 
-// Remaining Indian languages — copy English as fallback
-['bn', 'ta', 'te', 'mr'].forEach(function(c) { TR[c] = Object.assign({}, TR.en); });
 
 var RTL_LANGS = { ur: true, ar: true };
 
@@ -302,7 +297,6 @@ var QS = {
   ],
 };
 
-['bn', 'ta', 'te', 'mr'].forEach(function(c) { QS[c] = QS.en; });
 
 // ══════════════════════════════════════════
 // STYLE DATA
@@ -553,8 +547,6 @@ function renderQ() {
   });
 
   document.getElementById('backBtn').style.visibility = qIdx === 0 ? 'hidden' : 'visible';
-  var nb = document.getElementById('nextBtn');
-  nb.textContent = qIdx === total - 1 ? t('submit') : t('next');
 
   var card = document.getElementById('qCard');
   card.classList.remove('fade-in');
@@ -574,7 +566,8 @@ function selectA(v) {
 
 function nextQ() {
   if (answers[qIdx] === null) return; // shouldn't happen with auto-advance
-  if (qIdx < 9) {
+  var total = (QS[lang] || QS.en).length;
+  if (qIdx < total - 1) {
     qIdx++;
     renderQ();
   } else {
