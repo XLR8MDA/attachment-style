@@ -1,0 +1,11 @@
+{
+  "name": "attachment-style",
+  "version": "1.0.0",
+  "description": "A free, science-based quiz to discover your attachment style",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site, no build required'",
+    "test": "echo 'No tests configured yet'"
+  }
+}
